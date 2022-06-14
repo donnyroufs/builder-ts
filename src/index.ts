@@ -1,1 +1,1 @@
-export { BuilderMixin } from "./lib/BuilderMixin"
+export { ClassBuilderMixin } from "./lib/Builder"
