@@ -1,8 +1,5 @@
-type BuilderProperties<T, P extends string> = {
-  [K in keyof ExcludeMethods<T> as K extends string
-    ? `${P}${Capitalize<K>}`
-    : never]: (value: T[K]) => BuilderProperties<T, P> & { build(): T }
-}
+export type Newable<T> = abstract new () => T
+export type ClassDefinitionFor<T> = { prototype: T }
 
 export type ExcludeMethods<TClass> = Pick<
   TClass,
@@ -12,7 +9,12 @@ export type ExcludeMethods<TClass> = Pick<
   }[keyof TClass]
 >
 
-export type Constructable<TInstance = any> = new (...args: any[]) => TInstance
+type BuilderProperties<T, P extends string> = {
+  [K in keyof ExcludeMethods<T> as K extends string
+    ? `${P}${Capitalize<K>}`
+    : never]: (value: T[K]) => BuilderProperties<T, P> & { build(): T }
+}
+
 export type Builder<TEntity> = BuilderProperties<TEntity, "set"> & {
-  build(entity: TEntity): TEntity
+  build(): TEntity
 }

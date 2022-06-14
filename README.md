@@ -1,22 +1,26 @@
 # Read Me
 
-Small package that I use to create fixtures for my tests. Only works with classes,
-and the properties need to be defined in the constructor.
+Small package that I use to create fixtures for my tests. Only works with classes for now.
 
 Things I want to add whenever I am in the mood:
 
+- [x] Add support to add methods to the Builder
 - [ ] Build from Types/Interfaces
-- [ ] Do not force having to use a constructor
-- [ ] Add support to add methods to the Builder
+- [ ] Exclude methods that have been invoked already with a Strict Builder (e.g. after setTitle, setTitle is not available anymore)
+- [ ] Improve builder type so that custom methods do not get lost, more info below
+
+You can add custom methods to your builder but their types get lost the moment you use one of the auto generated "set..." methods,
+so you have to use them beforehand.
 
 ```ts
-import { BuilderMixin } from "builder-ts"
+import { ClassBuilderMixin } from "builder-ts"
 
 export class Post {
   public readonly id: string
   public readonly name: string
   public readonly createdAt: Date
 
+  // Also works with protected constructors
   public constructor(id: string, name: string, createdAt: Date) {
     this.id = id
     this.name = name
@@ -26,11 +30,15 @@ export class Post {
   public upvote() {}
 }
 
-class PostBuilder extends BuilderMixin(Post) {}
+class PostBuilder extends ClassBuilderMixin(Post) {
+  public withTodaysDate() {
+    this.setCreatedAt(Date.Today)
+  }
+}
 
 const post = new PostBuilder()
   .setId("id")
   .setName("myName")
   .setCreatedAt(new Date())
-  .build() // { id: "id", name: "myName", createdAt: Date }
+  .build() // { id: "id", name: "myName", createdAt: Date, upvote: Function }
 ```
