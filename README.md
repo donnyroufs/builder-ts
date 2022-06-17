@@ -30,6 +30,7 @@ export class Post {
 class PostBuilder extends ClassBuilderMixin(Post) {
   public withTodaysDate() {
     this.setCreatedAt(Date.Today)
+    return this
   }
 }
 
