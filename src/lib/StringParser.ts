@@ -1,0 +1,5 @@
+export class StringParser {
+  public static toCamelCase(str: string): string {
+    return str.charAt(0).toLowerCase() + str.slice(1)
+  }
+}

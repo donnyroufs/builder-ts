@@ -42,3 +42,7 @@ const post = new PostBuilder()
   .setCreatedAt(new Date())
   .build() // { id: "id", name: "myName", createdAt: Date, upvote: Function }
 ```
+
+## Rules
+
+- Properties should follow camelCase convention

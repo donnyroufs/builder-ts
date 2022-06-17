@@ -39,6 +39,7 @@ export class ProxyHandler<TEntity> {
   private onBuild() {
     const props = { ...this._obj }
     this._obj = {}
+
     return () => {
       // @ts-expect-error we assume its newable for now
       return Object.assign(new this._entity(), {
@@ -48,7 +49,7 @@ export class ProxyHandler<TEntity> {
   }
 
   private onSet(prop: string, value: unknown) {
-    const propName = prop.slice(3).toLowerCase()
+    const propName = StringParser.toCamelCase(prop.slice(3))
 
     this._obj[propName] = value
   }

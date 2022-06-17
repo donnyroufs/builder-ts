@@ -104,5 +104,20 @@ describe("builder", () => {
     expect(p2.createdAt).toBe(date)
   })
 
+  test("maintains casing for entity properties", () => {
+    class Post {
+      public title!: string
+      public createdAt!: Date
+    }
+
+    class PostBuilder extends ClassBuilderMixin(Post) {}
+
+    const b = new PostBuilder()
+
+    const p2 = b.setCreatedAt(new Date()).build()
+
+    expect(p2.createdAt).toBeInstanceOf(Date)
+  })
+
   test.todo("can inject dependencies into entity constructor")
 })
