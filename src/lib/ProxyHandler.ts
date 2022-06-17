@@ -1,10 +1,11 @@
 import { cast } from "./Cast"
+import { StringParser } from "./StringParser"
 
 type EntityProps = Record<string, unknown>
 type Instance = any
 
 export class ProxyHandler<TEntity> {
-  private readonly _obj: EntityProps = {}
+  private _obj: EntityProps = {}
   private readonly _instance: Instance
   private readonly _entity: TEntity
   private readonly _internalProxy: object
@@ -36,10 +37,12 @@ export class ProxyHandler<TEntity> {
   }
 
   private onBuild() {
+    const props = { ...this._obj }
+    this._obj = {}
     return () => {
       // @ts-expect-error we assume its newable for now
       return Object.assign(new this._entity(), {
-        ...this._obj,
+        ...props,
       })
     }
   }

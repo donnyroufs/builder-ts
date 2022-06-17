@@ -11,10 +11,7 @@ describe("builder", () => {
 
     const b = new PostBuilder()
 
-    const p = b
-      .setComments([1])
-      .setTitle("my title")
-      .build()
+    const p = b.setComments([1]).setTitle("my title").build()
 
     expect(p.title).toBe("my title")
     expect(p.comments).toEqual([1])
@@ -87,6 +84,24 @@ describe("builder", () => {
     const p = b.setTitle("title").build()
 
     expect(p.title).toBe("title")
+  })
+
+  test("can use the builder multiple times", () => {
+    class Post {
+      public title!: string
+      public createdAt!: Date
+    }
+
+    class PostBuilder extends ClassBuilderMixin(Post) {}
+
+    const b = new PostBuilder()
+
+    b.setTitle("title").build()
+    const date = new Date()
+    const p2 = b.setCreatedAt(date).build()
+
+    expect(p2.title).toBeUndefined()
+    expect(p2.createdAt).toBe(date)
   })
 
   test.todo("can inject dependencies into entity constructor")
