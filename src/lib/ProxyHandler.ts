@@ -40,9 +40,12 @@ export class ProxyHandler<TEntity> {
     const props = { ...this._obj }
     this._obj = {}
 
+    // We can overwrite the prototype here to make sure the constructor does not do a thing
+    // this will however take out default behaviour. So for now, I will assume that the constructor
+    // either has a list of primitives, or an object of all the properties.
     return () => {
       // @ts-expect-error we assume its newable for now
-      return Object.assign(new this._entity(), {
+      return Object.assign(new this._entity({} as any), {
         ...props,
       })
     }

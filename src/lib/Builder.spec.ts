@@ -119,5 +119,24 @@ describe("builder", () => {
     expect(p2.createdAt).toBeInstanceOf(Date)
   })
 
+  test("does not throw an error when it has a constructor", () => {
+    class Post {
+      public title: string
+
+      public constructor(props: { title: string }) {
+        this.title = props.title
+      }
+    }
+
+    class PostBuilder extends ClassBuilderMixin(Post) {}
+
+    const b = new PostBuilder()
+
+    const post = b.setTitle("my title").build()
+
+    expect(post).toBeDefined()
+    expect(post.title).toBe("my title")
+  })
+
   test.todo("can inject dependencies into entity constructor")
 })
