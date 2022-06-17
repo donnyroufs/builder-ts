@@ -1,0 +1,13 @@
+{
+  "name": "example",
+  "version": "0.0.0",
+  "main": "main.ts",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node src/main.ts --transpile-only"
+  },
+  "dependencies": {
+    "ts-node": "^10.8.1"
+  }
+}
